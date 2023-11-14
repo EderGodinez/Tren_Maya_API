@@ -7,7 +7,7 @@ export class Asiento {
   @Column({ nullable: true })
   ID_Tren: number;
 
-  @Column({ nullable: true })
+  @Column({ default:false })
   Disponibilidad: boolean; // Assuming Disponibilidad is a boolean
 
   // Getters, setters, and other methods can be added if needed

@@ -11,9 +11,17 @@ export class DailyService {
   handleCron() {
     this.executeDailyTask();
   }
-  executeDailyTask() {
+  async executeDailyTask() {
     // Lógica que se ejecutará diariamente
     console.log('Horarios limpios');
-    // Puedes llamar a tu endpoint o realizar cualquier operación deseada aquí
+    try {
+      // Actualiza todos los registros en la tabla 'asientos'
+      const result = await this.SeatsRepository.update({}, { Disponibilidad: false });
+      return { success: true, message: 'Actualización exitosa', result };
+    } catch (error) {
+      return { success: false, message: 'Error al actualizar: ' + error.message };
+    }
   }
+    
+  
 }
