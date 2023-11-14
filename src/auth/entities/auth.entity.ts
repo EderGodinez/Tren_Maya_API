@@ -6,7 +6,7 @@ export class User {
     id: number;
     @Column({unique:true,default:''})
     email:string
-    @Column({length:50,type:'varchar',default:''})
+    @Column({length:50,type:'varchar'})
     userName: string;
     @Column({length:100,type:'varchar'})
     password: string;

@@ -1,11 +1,17 @@
 import { Module } from '@nestjs/common';
-import { TrainService } from './train.service';
+import { TrainService } from './services/train.service';
 import { TrainController } from './train.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import {Distancia,Estacion,Estado} from './entities/index'
+import {Asiento, Distancia,Estacion,Estado, Tren} from './entities/index'
+import { ScheduleModule } from '@nestjs/schedule';
+import { DailyService } from './services/dailyTasks.service';
 @Module({
-  imports:[TypeOrmModule.forFeature([Distancia,Estacion,Estado])],
+  imports:[
+    ScheduleModule.forRoot(),
+    TypeOrmModule.forFeature([Distancia,Estacion,Estado,Tren,Asiento])],
   controllers: [TrainController],
-  providers: [TrainService],
+  providers: [TrainService,DailyService],
 })
-export class TrainModule {}
+export class TrainModule {
+  
+}

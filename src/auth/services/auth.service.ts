@@ -1,4 +1,4 @@
-import { ConflictException, Injectable, UnauthorizedException } from '@nestjs/common';
+import { ConflictException, HttpException, HttpStatus, Injectable, UnauthorizedException } from '@nestjs/common';
 import { CreateAuthDto } from '../dto/create-auth.dto';
 import { UpdateAuthDto } from '../dto/update-auth.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -9,7 +9,6 @@ import { UserResponse } from '../interfaces/User.response';
 import { JwtService } from '@nestjs/jwt';
 import { LoginDto } from '../dto/login.dto';
 import { ConfigService } from '@nestjs/config';
-import { TokenResponse } from '../../../dist/auth/interfaces/token.response';
 @Injectable()
 export class AuthService {
  constructor(@InjectRepository(User) private  user:Repository<User>,
@@ -55,8 +54,14 @@ export class AuthService {
   
   }
 
-  findOne(id: number):Promise<UserResponse> {
-  return this.user.findOne({ select: ['id', 'email', 'userName', 'CURP', 'Estado', 'fecha_nac', 'INE'] ,where: { id } });
+  findOne(id: number):Promise<UserResponse|HttpException> {
+  const user = this.user.findOne({ select: ['id', 'email', 'userName', 'CURP', 'Estado', 'fecha_nac', 'INE'] ,where: { id } });
+  if (user) {
+    return user 
+  }
+  else{
+    throw new HttpException('User not found',HttpStatus.NOT_FOUND)
+  }
   }
 
   update(id: number, updateAuthDto: UpdateAuthDto) {

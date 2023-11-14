@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, Req } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, Req, HttpException } from '@nestjs/common';
 import { AuthService } from './services/auth.service';
 import { CreateAuthDto } from './dto/create-auth.dto';
 import { UpdateAuthDto } from './dto/update-auth.dto';
@@ -20,12 +20,8 @@ export class AuthController {
   }
 //User by id
   @Get(':id')
-  findOne(@Param('id',ParseIntPipe) id: number):Promise<UserResponse>|string{
-   const resp=this.authService.findOne(id);
-   if (resp) return resp
-   else{
-    return ''
-   }
+  findOne(@Param('id',ParseIntPipe) id: number):Promise<UserResponse|HttpException>{
+   return this.authService.findOne(id);
   }
 
   @Patch(':id')

@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { CreateTrainDto } from './dto/create-train.dto';
-import { UpdateTrainDto } from './dto/update-train.dto';
+import { CreateTrainDto } from '../dto/create-train.dto';
+import { UpdateTrainDto } from '../dto/update-train.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Distancia } from './entities';
+import { Distancia } from '../entities';
 import { Repository } from 'typeorm';
 
 @Injectable()

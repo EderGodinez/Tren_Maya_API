@@ -1,23 +1,21 @@
-import { Entity, PrimaryColumn, Column } from 'typeorm';
+import { User } from 'src/auth/entities/auth.entity';
+import { Entity, PrimaryColumn, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn } from 'typeorm';
 
 @Entity({name:'reservaciones'})
 export class Reservacion {
-  @PrimaryColumn()
+  @PrimaryGeneratedColumn({type:'int'})
   ID_Reservacion: number;
-  @Column({ nullable: true })
-  ID_Usuario: number;
-  @Column({ length: 10, nullable: true })
-  Numero_Tren: string;
-  @Column({type:'int'})
-  Horario:number
+  @OneToOne(()=>User)
+  @JoinColumn({name:'UserId'})
+  UserId: User;
+  @Column({ type:'int',nullable: true })
+  Numero_Tren: number;
   @Column({ nullable: true,default: () => 'CURRENT_TIMESTAMP'})
   Fecha_Reserva: Date;
-  @Column({ nullable: true })
-  Fecha_Viaje: Date;
-  @Column({ length: 50, nullable: true })
-  Origen: string;
-  @Column({ length: 50, nullable: true })
-  Destino: string;
+  @Column({type:'int' })
+  Origen: number;
+  @Column({nullable: true })
+  Destino: number;
   @Column({ nullable: true })
   Numero_Pasajeros: number;
 }
