@@ -1,6 +1,7 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { ReservesService } from './reserves.service';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
+import { ReservesService } from './services/reserves.service';
 import { CreateReserveDto } from './dto/create-reserve.dto';
+import { ViewReservationsEmail } from './dto/viewreservations.dto';
 
 
 @Controller('reserves')
@@ -10,9 +11,20 @@ export class ReservesController {
   create(@Body() createReserveDto: CreateReserveDto) {
     return this.reservesService.create(createReserveDto);
   }
+  @Post('pendient')
+  createLater(@Body() createReserveDto: CreateReserveDto) {
+    return this.reservesService.createLater(createReserveDto);
+  }
+  @Post('Pay')
+  Pay(@Query('Idpendient') Idpendient:number) {
+    return this.reservesService.pay(Idpendient);
+  }
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.reservesService.findOne(+id);
   }
-
+   @Get()
+   findByEmail(@Query('email') email:string) { 
+      return this.reservesService.findOneByEmail(email);
+  }
 }

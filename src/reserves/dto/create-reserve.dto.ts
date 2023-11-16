@@ -1,7 +1,9 @@
 export class CreateReserveDto {
+    email:string
     ID_Usuario?:number
     ID_Tren:number
-    Numero_Pasajeros:number
     Origen:number
     Destino:number
+    Numero_Pasajeros:number
+    fecha_salida:Date
 }

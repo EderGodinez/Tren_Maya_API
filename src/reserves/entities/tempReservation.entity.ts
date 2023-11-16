@@ -1,9 +1,9 @@
-import { User } from 'src/auth/entities/auth.entity';
-import { Estacion, Tren } from 'src/train/entities';
-import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn, ManyToOne } from 'typeorm';
+import { User } from "src/auth/entities/auth.entity";
+import { Tren, Estacion } from "src/train/entities";
+import { Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn, Column } from "typeorm";
 
-@Entity({name:'reservaciones'})
-export class Reservacion {
+@Entity({name:'reservaciones_temp'})
+export class ReservacionTemp {
   @PrimaryGeneratedColumn({type:'int'})
   ID_Reservacion: number;
   @ManyToOne(()=>User,{ eager: true })
@@ -25,5 +25,5 @@ export class Reservacion {
   @Column({ type:'tinyint' })
   Numero_pasajeros: number;
   @Column({ type:'varchar',length:30 })
-  ReservationEmail: string;
+  Email: string;
 }
