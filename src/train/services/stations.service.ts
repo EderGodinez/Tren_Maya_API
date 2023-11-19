@@ -11,22 +11,20 @@ export class StationSevice {
   findAll() {
     return this.StationRepository.find()
   }
-  async CalculateDistance(body:CalculateDistanceDto){
-    const {station1Id,station2Id}=body;
-    const resp=await this.getDistance(station1Id,station2Id);
-    return resp
+  async CalculateDistance(station1Id:number,station2Id:number):Promise<number>{
+    return await this.getDistance(station1Id,station2Id);
   }
   async getDistance(stationFrom: number, stationTo: number): Promise<number> {
     let totalDistance = 0;
     let currentStation = stationFrom;
-    while (currentStation !== stationTo) {
+    while (currentStation != stationTo) { 
       const distance = await this.distanceRepository.findOne({where: { De: currentStation }});
       if (!distance) {
         // No hay una conexión directa entre las estaciones
         return -1;
       }
       totalDistance += distance.Kms;
-      currentStation = distance.A; // Siguiente estación
+      currentStation = distance.A; 
     }
     return totalDistance;
   }

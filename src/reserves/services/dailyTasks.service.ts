@@ -28,7 +28,7 @@ private static IdTrenCounter:number=0;
       .createQueryBuilder()
       .delete()
       .from(ReservacionTemp)
-      .where("Fecha_Salida = :fechaSalida", { fechaSalida: CurrentDate })
+      .where("Fecha_Reserva > :fechaSalida", { fechaSalida: CurrentDate })
       .andWhere("TrenId = :trenId", { trenId: trainId })
       .execute();
       return { success: true, message: 'Eliminacion de reservacion pendientes', result };

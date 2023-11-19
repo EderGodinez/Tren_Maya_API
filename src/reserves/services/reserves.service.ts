@@ -16,6 +16,7 @@ export class ReservesService {
               @InjectRepository(ReservacionTemp) private  Temp:Repository<ReservacionTemp>){}
               //crear reservaciones
   async create(createReserveDto: CreateReserveDto) {
+    
     const {ID_Usuario,fecha_salida,ID_Tren,...rest}=createReserveDto
     // Verifica si el usuario existe antes de realizar la reserva
     const userExist = await this.user.findOne({where:{ id: ID_Usuario }});
@@ -27,7 +28,7 @@ export class ReservesService {
     if (!userExist) {
       throw new HttpException(`Usuario no existe.`,HttpStatus.NOT_FOUND);
     }
-     if((occupiedSeat.sum+rest.Numero_Pasajeros)>100)
+     if((parseInt(occupiedSeat.sum)+rest.Numero_Pasajeros)>100)
      throw new HttpException(`Error al momento de tratar de realizar reservacion limite de pasajeros es de 100. Numero de disponibles ${100-occupiedSeat.sum}`,HttpStatus.CONFLICT);
     const estacion_destino=await this.ESTACION.findOne({where:{id:rest.Destino}})
     const estacion_origen=await this.ESTACION.findOne({where:{id:rest.Origen}})
@@ -41,8 +42,12 @@ export class ReservesService {
       TrenId:tren,
       ReservationEmail:rest.email
     })
-    const reservacionCreada = await this.reservation.save(nuevaReservacion);
-    return reservacionCreada;
+    this.reservation.save(nuevaReservacion);
+    return {
+      message:`Reservacion guardada con exito a ${nuevaReservacion.Destino.nombre} a las ${nuevaReservacion.TrenId.horaSalida}`,
+      code:200,
+      summary:'success'
+    }
 
   }//obtener reservaciones en base a lo que es el userid
   async findOne(id: number) {
@@ -95,7 +100,11 @@ export class ReservesService {
       Email:rest.email
     })
     const reservacionCreada = await this.Temp.save(nuevaReservacion);
-    return reservacionCreada;
+    return {
+      message:`Reservacion guardada con exito a ${nuevaReservacion.Destino.nombre} a las ${nuevaReservacion.TrenId.horaSalida}`,
+      code:200,
+      summary:'success'
+    }
   }
   async pay(Idpendient:number){
     const pendient= await this.Temp.findOne({where:{ID_Reservacion:Idpendient}})
