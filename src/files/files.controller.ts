@@ -8,13 +8,14 @@ import { v4 as uuidv4 } from 'uuid';
 export class FilesController {
     private static filename;
     private static allowedFileExtensions = ['.jpg', '.jpeg', '.png']; // Agrega las extensiones permitidas
-    private static maxFileSizeInBytes = 5 * 1024 * 1024; // 5 MB, ajusta este valor según tus necesidades
+    private static maxFileSizeInBytes = 20 * 1024 * 1024; // 5 MB, ajusta este valor según tus necesidades
     @Post('upload')
     @UseInterceptors(
         FileInterceptor('file', {
           storage: diskStorage({
-            destination:__dirname+'/public', // Ruta relativa al directorio raíz del proyecto
+            destination:__dirname+'//public', // Ruta relativa al directorio raíz del proyecto
             filename: (req, file, cb) => {
+              console.log(__dirname+'/public')
               FilesController.filename =uuidv4();//Se le asigna una id unica a la imagen
               const uniqueFileName = `${FilesController.filename}${extname(file.originalname)}`;
               return cb(null, uniqueFileName);

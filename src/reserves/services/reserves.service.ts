@@ -41,7 +41,8 @@ export class ReservesService {
       Numero_pasajeros:rest.Numero_Pasajeros,
       Fecha_Salida:fecha_salida,
       TrenId:tren,
-      ReservationEmail:rest.email
+      ReservationEmail:rest.email,
+      Total:rest.Total
     })
     this.reservation.save(nuevaReservacion);
     return {
@@ -57,7 +58,9 @@ export class ReservesService {
       throw new HttpException(`Usuario no existe.`,HttpStatus.NOT_FOUND);
     }
     const user=await this.user.findOne({where:{id:parseInt(id)}})
-    return this.reservation.find({where:{ReservationEmail:email,UserId:user}})
+    const resp=await this.reservation.find({where:{ReservationEmail:email,UserId:user}})
+    console.log(resp)
+    return resp
   }
   async findOneByEmail(email: string) {
     const userReservationsByEmail = await this.userexistByEmail(email);
@@ -99,7 +102,8 @@ export class ReservesService {
       Numero_pasajeros:rest.Numero_Pasajeros,
       Fecha_Salida:fecha_salida,
       TrenId:tren,
-      Email:rest.email
+      Email:rest.email,
+      Total:rest.Total
     })
     const reservacionCreada = await this.Temp.save(nuevaReservacion);
     return {
@@ -134,7 +138,11 @@ export class ReservesService {
   }
   async findpendient(email:string,userid:string){
     const user= await this.user.find({where:{id:parseInt(userid)}})
-    return this.Temp.find({where:{Email:email,UserId:user}})
+    console.log(user)
+    console.log(email)
+      const resp=await this.Temp.find({where:{Email:email,UserId:user}})
+      console.log(resp)
+    return resp
   }
 
 }

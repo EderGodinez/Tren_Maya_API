@@ -6,4 +6,5 @@ export class CreateReserveDto {
     Destino:number
     Numero_Pasajeros:number
     fecha_salida:Date
+    Total:number
 }

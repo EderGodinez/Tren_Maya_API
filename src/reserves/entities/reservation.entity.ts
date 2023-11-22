@@ -26,4 +26,6 @@ export class Reservacion {
   Numero_pasajeros: number;
   @Column({ type:'varchar',length:30 })
   ReservationEmail: string;
+  @Column({type:'float'})
+  Total:number
 }
