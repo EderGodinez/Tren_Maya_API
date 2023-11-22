@@ -19,12 +19,17 @@ export class ReservesController {
   Pay(@Query('Idpendient') Idpendient:number) {
     return this.reservesService.pay(Idpendient);
   }
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.reservesService.findOne(+id);
+  @Get('pendient')
+  findpendient(@Query('email') email:string,@Query('id') userid:string) {
+    return this.reservesService.findpendient(email,userid);
   }
+  @Get('paid')
+  findOne(@Query('email') email:string,@Query('id') userid:string) {
+    return this.reservesService.findOne(userid,email);
+  }
+  
    @Get()
-   findByEmail(@Query('email') email:string) { 
+   findRegisterUser(@Query('email') email:string) { 
       return this.reservesService.findOneByEmail(email);
   }
 }

@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, Req, HttpException } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, Req, HttpException, HttpStatus } from '@nestjs/common';
 import { AuthService } from './services/auth.service';
 import { CreateAuthDto } from './dto/create-auth.dto';
 import { UpdateAuthDto } from './dto/update-auth.dto';
@@ -12,6 +12,19 @@ export class AuthController {
   @Post()
   async create(@Body() createAuthDto: CreateAuthDto) {
     return await this.authService.create(createAuthDto);
+  }
+  @Get('validateToken')
+  validateToken(@Req() req:Request) {
+    const token = req.headers['authorization']?.split(' ')[1];
+    if (!token) {
+      return new HttpException('Token no proporcionado',HttpStatus.CONFLICT);
+    }
+    const isValid = this.authService.verifyToken(token);
+    return isValid ? { message: 'Token válido' } : { message: 'Token inválido' };
+  }
+  @Get(':userToken')
+  getUserInfoByToken(@Param('userToken') token:string){
+    return this.authService.getUserInfo(token)
   }
 //User list
   @Get()
@@ -37,13 +50,5 @@ export class AuthController {
   login(@Body() loginDto:LoginDto){
   return this.authService.signIn(loginDto)
   }
-  @Get('validate-token')
-  validateToken(@Req() req:Request): string {
-    const token = req.headers['authorization']?.split(' ')[1];
-    if (!token) {
-      return 'Token no proporcionado';
-    }
-    const isValid = this.authService.verifyToken(token);
-    return isValid ? 'Token válido' : 'Token inválido';
-  }
+  
 }

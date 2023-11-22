@@ -2,8 +2,6 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { Distancia, Estacion } from "../entities";
-import { CalculateDistanceDto } from "../dto/calculateDistance.dto";
-
 @Injectable()
 export class StationSevice {
   constructor(@InjectRepository(Distancia) private distanceRepository:Repository<Distancia>,

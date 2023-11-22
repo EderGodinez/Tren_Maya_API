@@ -6,6 +6,7 @@ import { Reservacion } from '../entities/reservation.entity';
 import {  Repository } from 'typeorm';
 import {  Estacion, Tren } from 'src/train/entities';
 import { ReservacionTemp } from '../entities/tempReservation.entity';
+import { extname } from 'path';
 
 @Injectable()
 export class ReservesService {
@@ -50,12 +51,13 @@ export class ReservesService {
     }
 
   }//obtener reservaciones en base a lo que es el userid
-  async findOne(id: number) {
-    if (!this.userexist(id)) {
+  async findOne(id: string,email:string) {
+    const useridNumber=parseInt(id)
+    if (!this.userexist(useridNumber)) {
       throw new HttpException(`Usuario no existe.`,HttpStatus.NOT_FOUND);
     }
-    const user=await this.user.findOne({where:{id}})
-    return this.reservation.find({where:{UserId:user}})
+    const user=await this.user.findOne({where:{id:parseInt(id)}})
+    return this.reservation.find({where:{ReservationEmail:email,UserId:user}})
   }
   async findOneByEmail(email: string) {
     const userReservationsByEmail = await this.userexistByEmail(email);
@@ -129,6 +131,10 @@ export class ReservesService {
     const reservacionCreada = await this.reservation.save(nuevaReservacion);
     return reservacionCreada;
 
+  }
+  async findpendient(email:string,userid:string){
+    const user= await this.user.find({where:{id:parseInt(userid)}})
+    return this.Temp.find({where:{Email:email,UserId:user}})
   }
 
 }
