@@ -16,6 +16,6 @@ export class User {
     Estado:number
     @Column({type:'date'})
     fecha_nac:Date
-    @Column({length:30,type:'varchar',nullable:true})
+    @Column({type:'varchar',nullable:true})
     INE:string
 }

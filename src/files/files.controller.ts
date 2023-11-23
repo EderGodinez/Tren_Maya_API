@@ -15,7 +15,6 @@ export class FilesController {
           storage: diskStorage({
             destination:__dirname+'//public', // Ruta relativa al directorio raíz del proyecto
             filename: (req, file, cb) => {
-              console.log(__dirname+'/public')
               FilesController.filename =uuidv4();//Se le asigna una id unica a la imagen
               const uniqueFileName = `${FilesController.filename}${extname(file.originalname)}`;
               return cb(null, uniqueFileName);
@@ -40,7 +39,7 @@ export class FilesController {
         if (!file) {
           return 'Ningún archivo cargado.'
         }
-        return `Archivo con nombre ${FilesController.filename}${extname(file.originalname)} cargado exitosamente.`;
+        return {response:`Archivo con nombre ${FilesController.filename}${extname(file.originalname)} cargado exitosamente.`};
       }
       @Get(':imageName')
         serveImage(@Param('imageName') imageName: string, @Res() res: Response) {

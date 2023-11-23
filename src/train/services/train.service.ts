@@ -9,9 +9,7 @@ export class TrainService {
   constructor(@InjectRepository(Distancia) private distanceRepository:Repository<Distancia>){}
 
   async findAll():Promise<TrainInfoResponse[]> {
-    const distances: TrainInfoResponse[] = await this.distanceRepository.query('select * from distancia')
-     console.log(distances)
-    return distances;
+    return this.distanceRepository.query('select * from distancia')
   }
   
 }

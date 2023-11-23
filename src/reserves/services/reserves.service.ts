@@ -17,7 +17,6 @@ export class ReservesService {
               @InjectRepository(ReservacionTemp) private  Temp:Repository<ReservacionTemp>){}
               //crear reservaciones
   async create(createReserveDto: CreateReserveDto) {
-    
     const {ID_Usuario,fecha_salida,ID_Tren,...rest}=createReserveDto
     // Verifica si el usuario existe antes de realizar la reserva
     const userExist = await this.user.findOne({where:{ id: ID_Usuario }});
@@ -58,9 +57,7 @@ export class ReservesService {
       throw new HttpException(`Usuario no existe.`,HttpStatus.NOT_FOUND);
     }
     const user=await this.user.findOne({where:{id:parseInt(id)}})
-    const resp=await this.reservation.find({where:{ReservationEmail:email,UserId:user}})
-    console.log(resp)
-    return resp
+     return this.reservation.find({where:{ReservationEmail:email,UserId:user}})
   }
   async findOneByEmail(email: string) {
     const userReservationsByEmail = await this.userexistByEmail(email);
@@ -138,11 +135,7 @@ export class ReservesService {
   }
   async findpendient(email:string,userid:string){
     const user= await this.user.find({where:{id:parseInt(userid)}})
-    console.log(user)
-    console.log(email)
-      const resp=await this.Temp.find({where:{Email:email,UserId:user}})
-      console.log(resp)
-    return resp
+    return this.Temp.find({where:{Email:email,UserId:user}})
   }
 
 }
