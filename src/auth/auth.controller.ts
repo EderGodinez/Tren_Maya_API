@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, Req, HttpException, HttpStatus, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, Req, HttpException, HttpStatus, UseGuards, Query } from '@nestjs/common';
 import { AuthService } from './services/auth.service';
 import { CreateAuthDto } from './dto/create-auth.dto';
 import { UpdateAuthDto } from './dto/update-auth.dto';
@@ -24,8 +24,8 @@ export class AuthController {
     const isValid = this.authService.verifyToken(token);
     return isValid ? { message: 'Token válido' } : { message: 'Token inválido' };
   }
-  @Get(':userToken')
-  getUserInfoByToken(@Param('userToken') token:string){
+  @Get('')
+  getUserInfoByToken(@Query('userToken') token:string){
     return this.authService.getUserInfo(token)
   }
 //User list
@@ -35,17 +35,17 @@ export class AuthController {
     return this.authService.findAll();
   }
 //User by id
-@UseGuards(AdminGuard,AuthGuard)
+@UseGuards(AuthGuard)
   @Get(':id')
   findOne(@Param('id',ParseIntPipe) id: number):Promise<UserResponse|HttpException>{
    return this.authService.findOne(id);
   }
-  @UseGuards(AdminGuard,AuthGuard)
+  @UseGuards(AuthGuard)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateAuthDto: UpdateAuthDto) {
     return this.authService.update(+id, updateAuthDto);
   }
-  @UseGuards(AdminGuard,AuthGuard)
+  @UseGuards(AdminGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.authService.remove(+id);

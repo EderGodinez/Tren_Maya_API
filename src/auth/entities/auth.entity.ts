@@ -19,5 +19,5 @@ export class User {
     @Column({type:'varchar',nullable:true})
     INE:string
     @Column({type:'varchar',length:10})
-    role:string
+    Role:string
 }
