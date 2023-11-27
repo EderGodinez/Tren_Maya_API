@@ -18,4 +18,6 @@ export class User {
     fecha_nac:Date
     @Column({type:'varchar',nullable:true})
     INE:string
+    @Column({type:'varchar',length:10})
+    role:string
 }

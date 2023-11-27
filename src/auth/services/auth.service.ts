@@ -89,6 +89,12 @@ export class AuthService {
     }
     const {password,...rest}=user
     const payload = { rest };
+    if (rest.role==='admin') {
+      return {
+        access_token: await this.JwtService.sign(payload,{secret:this.configService.get<string>('ADMIN_JWT_SECRET_KEY')}),
+        message:'Admin Token creado exitosamente'
+      };  
+    }
     return {
       access_token: await this.JwtService.sign(payload,{secret:this.configService.get<string>('JWT_SECRET_KEY')}),
       message:'Token creado exitosamente'

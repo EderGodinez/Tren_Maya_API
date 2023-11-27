@@ -1,7 +1,6 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Query } from '@nestjs/common';
 import { ReservesService } from './services/reserves.service';
 import { CreateReserveDto } from './dto/create-reserve.dto';
-import { ViewReservationsEmail } from './dto/viewreservations.dto';
 
 
 @Controller('reserves')
