@@ -45,7 +45,7 @@ export class AuthService {
     }
   }
   async findAll():Promise<UserResponse[]> {
-    const users = await this.user.find({ select: ['id', 'email', 'userName', 'CURP', 'Estado', 'fecha_nac', 'INE'] });
+    const users= await this.user.find({ select: ['id', 'email', 'userName', 'CURP', 'Estado', 'fecha_nac', 'INE'] });
     return users.map(user => ({
       userName: user.userName,
       email: user.email,

@@ -6,7 +6,8 @@ import { UserResponse } from './interfaces/User.response';
 import { LoginDto } from './dto/login.dto';
 import { AdminGuard } from '../guards/admin.guard';
 import { AuthGuard } from '../guards/auth.guard';
-
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+@ApiTags('Users')
 @Controller('users')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
@@ -24,32 +25,37 @@ export class AuthController {
     const isValid = this.authService.verifyToken(token);
     return isValid ? { message: 'Token válido' } : { message: 'Token inválido' };
   }
-  @Get('')
+  @Get('info')
   getUserInfoByToken(@Query('userToken') token:string){
     return this.authService.getUserInfo(token)
   }
 //User list
+@ApiBearerAuth()
 @UseGuards(AdminGuard)
   @Get()
   findAll():Promise<UserResponse[]> {
     return this.authService.findAll();
   }
 //User by id
+@ApiBearerAuth()
 @UseGuards(AuthGuard)
   @Get(':id')
   findOne(@Param('id',ParseIntPipe) id: number):Promise<UserResponse|HttpException>{
    return this.authService.findOne(id);
   }
+  @ApiBearerAuth()
   @UseGuards(AuthGuard)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateAuthDto: UpdateAuthDto) {
     return this.authService.update(+id, updateAuthDto);
   }
+  @ApiBearerAuth()
   @UseGuards(AdminGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.authService.remove(+id);
   }
+
   @Post('/login')
   login(@Body() loginDto:LoginDto){
   return this.authService.signIn(loginDto)

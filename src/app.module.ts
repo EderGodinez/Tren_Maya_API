@@ -1,6 +1,4 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { ReservesModule } from './reserves/reserves.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -28,8 +26,8 @@ import { ScheduleModule } from '@nestjs/schedule';
     AuthModule, ReservesModule, 
     TrainModule, FilesModule,
     ],
-  controllers: [AppController],
-  providers: [AppService ],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {
 }

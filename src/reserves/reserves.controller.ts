@@ -1,8 +1,9 @@
 import { Controller, Get, Post, Body, Query } from '@nestjs/common';
 import { ReservesService } from './services/reserves.service';
 import { CreateReserveDto } from './dto/create-reserve.dto';
+import { ApiTags } from '@nestjs/swagger';
 
-
+@ApiTags('Reserves')
 @Controller('reserves')
 export class ReservesController {
   constructor(private readonly reservesService: ReservesService) {}
