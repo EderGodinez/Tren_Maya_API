@@ -1,8 +1,11 @@
 {
+  "engines": {
+    "node": ">=16"
+  },
   "name": "api-tren-maya",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "description": "API de reservacion de TrenMaya para practica",
+  "author": "Eder Godinez",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {

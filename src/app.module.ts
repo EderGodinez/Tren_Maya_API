@@ -7,17 +7,19 @@ import { TrainModule } from './train/train.module';
 import { ConfigModule } from '@nestjs/config';
 import { FilesModule } from './files/files.module';
 import { ScheduleModule } from '@nestjs/schedule';
+
+
 @Module({
   imports: [
     ScheduleModule.forRoot(),
     ConfigModule.forRoot({isGlobal: true}),
     TypeOrmModule.forRoot({
     type: 'mysql',
-    host: 'localhost',
+    host: 'bdffecm24jeepflvwgef-mysql.services.clever-cloud.com',
     port: 3306,
-    username: 'root',
-    password: '',
-    database: 'tren_maya',
+    username: 'utydsey0fptfa5es',
+    password: 'xurQOPicqEmwvj4T6Xxr',
+    database: 'bdffecm24jeepflvwgef',
     entities: [__dirname+'/**/*.entity{.ts,.js}',],
     synchronize: true, // Solo para entornos de desarrollo, no usar en producción
     }),
