@@ -7,7 +7,6 @@ import { TrainModule } from './train/train.module';
 import { ConfigModule } from '@nestjs/config';
 import { FilesModule } from './files/files.module';
 import { ScheduleModule } from '@nestjs/schedule';
-
 @Module({
   imports: [
     ScheduleModule.forRoot(),

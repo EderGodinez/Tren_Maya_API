@@ -1,5 +1,6 @@
 import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { PayloadJWT } from 'src/auth/interfaces/PayloadJWT.interface';
 
 @Injectable()
 export class AdminGuard implements CanActivate {
@@ -12,12 +13,12 @@ export class AdminGuard implements CanActivate {
     }
     try {
       // Verificar el token
-      const payload = await this.jwtService.verifyAsync(token, { secret: process.env.ADMIN_JWT_SECRET_KEY });
+      const payload:PayloadJWT = await this.jwtService.verifyAsync(token, { secret: process.env.ADMIN_JWT_SECRET_KEY});
       // Realizar alguna lógica de autorización basada en el contenido del token
-      if (payload.role !== 'admin') {
+      if (payload.Role !== 'admin') {
         throw new UnauthorizedException('No tienes permisos de administrador');
       }
-    } catch {
+    } catch{
       throw new UnauthorizedException('Token de administrador inválido');
     }
     return Promise.resolve(true);
