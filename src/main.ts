@@ -11,14 +11,13 @@ async function bootstrap() {
     credentials: true,
   });
   const config = new DocumentBuilder()
-  .setTitle('SimplementeFlow-API')
-  .setDescription('API REST de sistema E-commerce SimplementeFlow')
-  .setVersion('1.0')
-  .addTag('E-commerce')
-  .addBearerAuth()
-  .build();
-const document = SwaggerModule.createDocument(app, config);
-SwaggerModule.setup('api', app, document);
+    .setTitle('TrenMaya API-REST')
+    .setDescription('API REST de sistema de reservacion por disponibilidad de tren maya')
+    .setVersion('1.0')
+    .addBearerAuth()
+    .build();
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('docs', app, document);
   await app.listen(3000);
 }
 bootstrap();

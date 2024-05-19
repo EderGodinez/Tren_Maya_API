@@ -2,8 +2,6 @@
 import { ConfigModule, ConfigService } from '@nestjs/config';
 /* eslint-disable prettier/prettier */
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { ReservesModule } from './reserves/reserves.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -29,8 +27,8 @@ import { ScheduleModule } from '@nestjs/schedule';
     AuthModule, ReservesModule, 
     TrainModule, FilesModule,
     ],
-  controllers: [AppController],
-  providers: [AppService ,ConfigService],
+  controllers: [],
+  providers: [ ConfigService],
 
 })
 export class AppModule {

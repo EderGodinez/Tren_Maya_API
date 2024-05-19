@@ -1,4 +1,7 @@
 {
+  "engines": {
+    "node": ">=16"
+  },
   "name": "api-tren-maya",
   "version": "0.0.1",
   "description": "Es el desarrollo de una API REST de reservacion del tren maya",

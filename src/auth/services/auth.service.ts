@@ -10,6 +10,7 @@ import { JwtService } from '@nestjs/jwt';
 import { LoginDto } from '../dto/login.dto';
 import { ConfigService } from '@nestjs/config';
 import { CreateUserResponse } from '../interfaces/CreateUserResponse';
+import { PayloadJWT } from '../interfaces/PayloadJWT.interface';
 @Injectable()
 export class AuthService {
  constructor(@InjectRepository(User) private  user:Repository<User>,
@@ -45,7 +46,7 @@ export class AuthService {
     }
   }
   async findAll():Promise<UserResponse[]> {
-    const users = await this.user.find({ select: ['id', 'email', 'userName', 'CURP', 'Estado', 'fecha_nac', 'INE'] });
+    const users= await this.user.find({ select: ['id', 'email', 'userName', 'CURP', 'Estado', 'fecha_nac', 'INE'] });
     return users.map(user => ({
       userName: user.userName,
       email: user.email,
@@ -88,7 +89,14 @@ export class AuthService {
       throw new HttpException('Contraseña incorrecta',HttpStatus.UNAUTHORIZED)
     }
     const {password,...rest}=user
-    const payload = { rest };
+    const {id,userName,CURP,Estado,fecha_nac,INE,Role}=rest
+    const payload:PayloadJWT = {id,email,userName,CURP,Estado,fecha_nac,INE,Role};
+    if (rest.Role==='admin') {
+      return {
+        access_token: await this.JwtService.sign(payload,{secret:this.configService.get<string>('ADMIN_JWT_SECRET_KEY')}),
+        message:'Admin Token creado exitosamente'
+      };  
+    }
     return {
       access_token: await this.JwtService.sign(payload,{secret:this.configService.get<string>('JWT_SECRET_KEY')}),
       message:'Token creado exitosamente'

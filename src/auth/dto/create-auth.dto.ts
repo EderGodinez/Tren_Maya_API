@@ -6,4 +6,5 @@ export class CreateAuthDto {
     Estado:number
     fecha_nac:Date
     INE:string
+    Role:string
 }
